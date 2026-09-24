@@ -19,12 +19,12 @@ pipeline earns credit; *"80% seemed reasonable"* does not.
 
 ## 1. Retrieved chunks contain the answer
 
-For at least 4 of my 5 test questions, the retrieved chunks include one that
-contains the answer.
+For at least 4 of my 5 test questions, the retrieved chunks include one that contains the answer.
 
 **Why this target:**
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
+The model can only use what was retrieved. At least 4 out of five the retrieval should be effective and should contain an answer (the excat phrase and can span overlap)
 
 ---
 
@@ -35,8 +35,7 @@ Every answer the system produces names at least one source document.
 **Why this target:**
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
-
----
+I picked all answers because all documents have a file name so there is no reason to accept less.
 
 ## 3. The relevance gate stops out-of-corpus questions
 
@@ -52,11 +51,14 @@ in at least 4 of 5 tries.
 **Why this target:**
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
-
+To ensure that at least 80% of the time, it does not fail when there is nothing to answer from
 ---
 
 ## 4. Something about your chunks
 
+No chunk is longer than 90 words or shorter than 200 characters.
+
+<!-- "No chunk is longer than 90 words, since anything that contains more than 1+ topics makes it hard to understand which part answers the question. we do not wnat a  retrival of loosely related text" -->
 <!-- YOU WRITE THIS ONE.
 
      How would you know if your chunks were the right size? Name something
@@ -72,12 +74,13 @@ in at least 4 of 5 tries.
 
 
 **Why this target:**
-
+No chunk is shorter than 200 characters to ensure that no chunk is too small that there is no relevant answer or longer than 90 words that it is too long that it become hard to pinpoint the answer.
 
 
 ---
 
 ## 5. Your choice
+In a random sample of 5 chunks, at least 4 must read as a complete thought.
 
 <!-- YOU WRITE THIS ONE TOO.
 
@@ -90,7 +93,7 @@ in at least 4 of 5 tries.
 
 
 **Why this target:**
-
+4/5 To ensure that no sentence cut in half at either end incase chunking stops mid sentence or mid thought
 
 
 ---
