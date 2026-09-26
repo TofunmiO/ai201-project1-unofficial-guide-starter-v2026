@@ -26,6 +26,7 @@ from dataclasses import dataclass
 
 import config
 from ingest import Document
+import re
 
 
 @dataclass
@@ -97,7 +98,49 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
       - Would splitting on paragraph breaks keep more thoughts intact than
         splitting on a character count?
     """
-    return fallback_split(documents)
+#
+    # return fallback_split(documents)
+
+    # Paragraph-based splitting strategy -  since i am using campus_life, i think splitting by paragraph is reasonable since the posts in the documents are short reviews.
+    chunk_size = config.CHUNK_SIZE
+    overlap = config.CHUNK_OVERLAP
+
+    if overlap >= chunk_size:
+        raise ValueError("overlap has to be smaller than chunk_size")
+
+    chunks: list[Chunk] = []
+    for doc in documents:
+        # split on blank lines
+        paras = [p.strip() for p in re.split(r"\n\s*\n+", doc.text) if p.strip()]
+
+        # merge tiny paras into previous
+        merged: list[str] = []
+        for p in paras:
+            if not merged:
+                merged.append(p)
+                continue
+            tiny_threshold = max(50, chunk_size // 4)
+            if len(p) < tiny_threshold and len(merged[-1]) + 2 + len(p) <= chunk_size:
+                merged[-1] = merged[-1] + "\n\n" + p
+            else:
+                merged.append(p)
+
+        index = 0
+        for block in merged:
+            if len(block) <= chunk_size:
+                chunks.append(Chunk(text=block, source=doc.source, index=index, produced_by="chunker.py::split_documents"))
+                index += 1
+                continue
+            # long block: windowed split
+            start = 0
+            while start < len(block):
+                piece = block[start : start + chunk_size].strip()
+                if piece:
+                    chunks.append(Chunk(text=piece, source=doc.source, index=index, produced_by="chunker.py::split_documents"))
+                    index += 1
+                start += chunk_size - overlap
+
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:
