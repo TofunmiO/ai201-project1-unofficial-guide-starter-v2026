@@ -27,6 +27,11 @@ Oluwatofunmi Oyetan corpus: campus_life
      this repo.
 
      Milestone 5. -->
+    This is a RAG system that chunks corpus documents, builds a vector index, and answers user questions by retrieving the most relevant passages. 
+    
+    I used the campus_life corpus; typical questions ask about campus services, schedules, and student advice. Answers are grounded in the retrieved documents and include a filename evidence line (or the system will refuse with “I don't have enough information to answer that.” if no support is found). 
+   
+   To reproduce, run python app.py index then ask questions with python app.py ask "..." (a valid GEMINI_API_KEY is required for fresh generation).
 
 ## Chunking Strategy
 
@@ -124,9 +129,10 @@ Doesn't roll over between semesters. Print your readings in December rather than
      visible. Milestone 4. -->
 
 **Question:**
-
+How much dollar does every student get for printing per semester
 **Answer:**
-
+Every student gets $30 of printing per semester.
+Evidence: admin_printing_quota.txt
 ```
 ```
 
@@ -134,7 +140,8 @@ Doesn't roll over between semesters. Print your readings in December rather than
 
 **Question:** What are the walk-in hours for the health centre?
 
-**Answer:** The walk-in hours for the health centre are from 8am to 11am (Evidence: health_center.txt)
+**Answer:** Walk-in hours for the health centre are 8:00 AM to 11:00 AM. 
+Evidence: health_center.txt
 
 
 **My relevance cutoff:**
@@ -178,10 +185,17 @@ This sits squarely in the gap and avoids false accepts while still answering in�
 
      Milestone 5. -->
 
-**1.**
+1) Chunking function
 
-**2.**
+- Asked: paragraph-first chunker; merge tiny paragraphs; fallback sliding window.
+- Returned: draft that sometimes split mid-paragraph.
+- Changed: implemented paragraph-first split and tiny-paragraph merge in `chunker.py`.
 
+2) Grounding & evidence
+
+- Asked: require answers cite filenames and refuse when unsupported.
+- Returned: prompt draft + wrapper; inconsistent refusal/evidence formatting.
+- Changed: added strict `GROUNDING_INSTRUCTION` in `generate.py` and updated `Sample Answer`.
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -212,8 +226,8 @@ This sits squarely in the gap and avoids false accepts while still answering in�
 | 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
 | 2. Every answer names a source | 5 of 5 |  |  |  |  |
 | 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 4. |  | | | | |
+| 5.| | | | | |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
