@@ -1,6 +1,7 @@
 # The Unofficial Guide
 
 <!-- Replace this line with your name and which corpus you picked. -->
+Oluwatofunmi Oyetan corpus: campus_life
 
 > **This file is your submission.** Fill it in as you go — most sections get
 > written during the milestone that produces them, not at the end.
@@ -52,31 +53,70 @@
      across.
 
      Milestone 3. -->
+     ======================================================================
+Chunk 1  |  source: thread_bike_commute.txt#0  |  produced by: chunker.py::split_documents
+======================================================================
+THREAD: Is a bike worth it for a 20 minute walk commute?
 
-**Chunk 1** — source: `` — produced by: ``
+--- reply 1 (14 votes) ---
+Yeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three.
 
-```
-```
+--- reply 2 (9 votes) ---
+Counterpoint, I sold mine. Between November and March the paths are either icy or salted and salt destroys a drivetrain in one season.
 
-**Chunk 2** — source: `` — produced by: ``
+--- reply 3 (22 votes) ---
+Both true. I keep a cheap bike for September to November and walk the rest of the year. Total cost was about $120 for the bike and I don't care what happens to it.
 
-```
-```
+--- reply 4 (5 votes) ---
+If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
 
-**Chunk 3** — source: `` — produced by: ``
+======================================================================
+Chunk 2  |  source: thread_first_gen.txt#0  |  produced by: chunker.py::split_documents
+======================================================================
+THREAD: Anything specific for first-generation students?
 
-```
-```
+--- reply 1 (33 votes) ---
+The advising office has a specific programme and it is genuinely good, but it is opt-in and badly publicised. Ask for it by name.
 
-**Chunk 4** — source: `` — produced by: ``
+======================================================================
+Chunk 3  |  source: thread_laptop_specs.txt#0  |  produced by: chunker.py::split_documents
+======================================================================
+THREAD: How much laptop do I actually need for CS courses?
 
-```
-```
+--- reply 1 (31 votes) ---
+Less than the recommended spec page says. 16GB of RAM is the one number worth paying for; everything else you'll never notice.
 
-**Chunk 5** — source: `` — produced by: ``
+--- reply 2 (18 votes) ---
+Adding: the lab machines exist and are better than anything you'll buy. For the heavy assignments people just use those.
 
-```
-```
+--- reply 3 (12 votes) ---
+I did two years on an 8GB machine and it was fine until the last project, at which point it very much wasn't. 16 is the answer.
+
+======================================================================
+Chunk 4  |  source: thread_meal_plan_tier.txt#1  |  produced by: chunker.py::split_documents
+======================================================================
+--- reply 1 (24 votes) ---
+Depends entirely on whether your building has a kitchen. Fenwick has kitchenettes, so people there go down a tier and cook two or three nights. Everywhere else, get the middle tier.
+
+--- reply 2 (19 votes) ---
+The highest tier only makes sense if you eat three meals a day in the halls every single day, which basically nobody does past October.
+
+--- reply 3 (11 votes) ---
+Remember you can only change it once and only in the first ten days. I waited and got stuck on a plan I didn't use.
+
+--- reply 4 (7 votes) ---
+Declining balance rolls within the semester but not between them. Spend it in December or lose it.
+
+======================================================================
+Chunk 5  |  source: thread_printing.txt#0  |  produced by: chunker.py::split_documents
+======================================================================
+THREAD: Is the printing quota enough?
+
+--- reply 1 (17 votes) ---
+For most people yes. $30 is about 600 pages black and white. It's the colour printing that eats it — eight times the cost per page.
+
+--- reply 2 (11 votes) ---
+Doesn't roll over between semesters. Print your readings in December rather than losing it.
 
 ## Sample Answer
 
@@ -90,6 +130,13 @@
 ```
 ```
 
+**Sample Answer**
+
+**Question:** What are the walk-in hours for the health centre?
+
+**Answer:** The walk-in hours for the health centre are from 8am to 11am (Evidence: health_center.txt)
+
+
 **My relevance cutoff:**
 
 <!-- The number you set in config.py, and how you got there.
@@ -102,8 +149,23 @@
      Milestone 4. -->
 
 | Question | In corpus? | Best distance |
-|---|---|---|
-|  |  |  |
+|----------|------------|---------------|
+| How much dollar does every student get for printing per semester | Yes |  0.2529 |
+| What are the walk-in hours for the health centre | Yes |  0.1750 |
+| What are the library hours during reading week | Yes |  0.4316 |
+| The lab practical for phys 130 mechanics course is worth how many percent | Yes |  0.1932 |
+| What is winter like | Yes |  0.4670 |
+| What is the capital of Mongolia | No |  0.8246 |
+| How do I change the oil in a diesel engine| No |  0.9340 |
+| Who won the 1994 World Cup| No | 0.8859 |
+| What is the recommended dosage of ibuprofen for a headache| No | 0.8442 |
+| How do I write a for loop in Rust| No | 0.8960 |
+
+
+ Yes, there is a gap — min_out_of_scope (0.8246) > max_in_corpus (0.4670).
+ Relevance Cutoff (midpoint): (0.4670 + 0.8246)/2 ≈ 0.646.
+This sits squarely in the gap and avoids false accepts while still answering in‑scope questions.
+
 
 ## How I Used AI
 

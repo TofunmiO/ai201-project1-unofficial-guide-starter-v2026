@@ -1,0 +1,95 @@
+[
+  {
+    "question": "How much dollar does every student get for printing per semester",
+    "expects": "30",
+    "results": [
+      {
+        "distance": 0.2528783934343408,
+        "source": "admin_printing_quota.txt",
+        "text": "On the printing quota\n\nEvery student gets $30 of printing per semester, which is roughly 600 black-and-white pages. It does not roll over. Colour costs eight times as much per page, which people discover after printing one poster."
+      },
+      {
+        "distance": 0.5121281246140903,
+        "source": "money_textbooks.txt",
+        "text": "Textbooks without paying full price\n\nThe library holds one copy of most required texts on two-hour reserve. For courses where the text is used constantly that isn't enough, but for the reading-light courses it's genuinely all you need.\n\nThe campus store price-matches, which is not advertised anywhere and you have to ask at the counter with the other listing on your phone."
+      },
+      {
+        "distance": 0.5616709180775494,
+        "source": "admin_dining_dollars.txt",
+        "text": "On the dining dollars\n\nDeclining balance \u2014 what everyone calls dining dollars \u2014 rolls over from the autumn semester to the spring, but not from spring to the following autumn. Whatever is left in May disappears."
+      },
+      {
+        "distance": 0.583324244818824,
+        "source": "money_jobs.txt",
+        "text": "On-campus work\n\nLibrary and dining jobs post in the first week of each semester and go fast. Pay is the same across departments \u2014 the difference is whether you can study during the shift. Library desk: usually yes. Dining: no.\n\nMaximum is 20 hours a week during term. Most people find 10 to 12 is the point where it stops affecting coursework."
+      },
+      {
+        "distance": 0.6053206154622106,
+        "source": "admin_campus_jobs_and_financial_aid.txt",
+        "text": "On the campus jobs and financial aid\n\nWork-study earnings don't count against your financial aid the way ordinary income does. Non-work-study campus jobs pay the same and do count, which is a difference worth understanding before you take the first job offered."
+      }
+    ]
+  },
+  {
+    "question": "What are the walk-in hours for the health centre",
+    "expects": "8am to 11am",
+    "results": [
+      {
+        "distance": 0.1750206187633231,
+        "source": "health_center.txt",
+        "text": "The health centre\n\nWalk-in hours are 8am to 11am; everything after that is by appointment and appointments run about a week out. If something is urgent, go at 8am and wait rather than booking.\n\nCounselling is separate, in the same building, and has its own intake process with a shorter wait than people expect \u2014 usually three or four days for a first session."
+      },
+      {
+        "distance": 0.5610056822350135,
+        "source": "transit_walking.txt",
+        "text": "Walking times across campus\n\nRough numbers, measured rather than guessed. Aldridge Hall to the science quad: 4 minutes. Fenwick Court to central campus: 18 minutes. Morrow House to Kestrel Commons: 7 minutes. Library to Ridgeway Caf\u00e9: 3 minutes.\n\nAdd four minutes in winter. The path past the pond genuinely ices over and people take the long way round."
+      },
+      {
+        "distance": 0.6168725609067537,
+        "source": "dining_the_ridgeway_cafe_followup.txt",
+        "text": "Re: The Ridgeway Caf\u00e9\n\nAdding to what people have said about The Ridgeway Caf\u00e9. The wait figure of 10 to 15 minutes at 12:30 matches what I've seen. If you're trying to eat between classes, go before 11:45 and it's a different building entirely.\n\nAlso worth saying: seating is tight; about 40 seats for a building of 900. Nobody tells you this at orientation."
+      },
+      {
+        "distance": 0.62475568201691,
+        "source": "transit_shuttle.txt",
+        "text": "The campus shuttle\n\nRuns a loop every 20 minutes from 7am to 11pm on weekdays and every 40 minutes on weekends. The published timetable is optimistic by about five minutes in the morning and accurate the rest of the day.\n\nIt's free with a student ID. The stop outside Fenwick Court is the one that gets skipped when the driver is behind, which is worth knowing if you live there."
+      },
+      {
+        "distance": 0.6321608800691996,
+        "source": "dining_the_ridgeway_cafe.txt",
+        "text": "The Ridgeway Caf\u00e9\n\nSecond-year here. Wait times: 10 to 15 minutes at 12:30, none after 2:00. The thing worth going for is the only place on campus with real espresso. The thing to know is that seating is tight; about 40 seats for a building of 900.\n\nHours are 7:00am to 4:00pm weekdays only. Costs declining balance only, no meal swipes."
+      }
+    ]
+  },
+  {
+    "question": "What are the library hours during reading week",
+    "expects": "Open until 10pm",
+    "results": [
+      {
+        "distance": 0.4315745368918632,
+        "source": "study_library_hours.txt",
+        "text": "Library hours and where to actually sit\n\nOpen until 2am during term, until 10pm during reading week, which is backwards and catches everyone out every single year.\n\nThird floor is silent and enforced. Second floor is quiet in theory. The basement has the only outlets at every seat and is therefore full from about 10am."
+      },
+      {
+        "distance": 0.46650990345106014,
+        "source": "housing_morrow_house_noise.txt",
+        "text": "Noise levels in Morrow House\n\nAsked about this a lot so writing it down. Loud until about 1am on weekends, no enforced quiet hours.\n\nIf you're someone who needs quiet to work, the library is open until 2am during term and that's what most people in this building end up doing."
+      },
+      {
+        "distance": 0.4742011684026355,
+        "source": "study_group_rooms.txt",
+        "text": "Booking a group study room\n\nRooms book two weeks ahead through the library site, in two-hour blocks, maximum two blocks per person per week. The limit is per person, so a group of four can chain together eight hours if they coordinate.\n\nRooms 210 and 211 have whiteboards that actually erase. The others don't and no amount of scrubbing helps."
+      },
+      {
+        "distance": 0.4801802033240452,
+        "source": "money_jobs.txt",
+        "text": "On-campus work\n\nLibrary and dining jobs post in the first week of each semester and go fast. Pay is the same across departments \u2014 the difference is whether you can study during the shift. Library desk: usually yes. Dining: no.\n\nMaximum is 20 hours a week during term. Most people find 10 to 12 is the point where it stops affecting coursework."
+      },
+      {
+        "distance": 0.4857266345858078,
+        "source": "money_textbooks.txt",
+        "text": "Textbooks without paying full price\n\nThe library holds one copy of most required texts on two-hour reserve. For courses where the text is used constantly that isn't enough, but for the reading-light courses it's genuinely all you need.\n\nThe campus store price-matches, which is not advertised anywhere and you have to ask at the counter with the other listing on your phone."
+      }
+    ]
+  }
+]

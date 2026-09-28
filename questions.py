@@ -27,7 +27,7 @@ QUESTIONS = [
     {"question": "What are the walk-in hours for the health centre", "expects": "8am to 11am"},
     {"question": "What are the library hours during reading week", "expects": "Open until 10pm"},
     {"question": "The lab practical for phys 130 mechanics course is worth how many percent", "expects": "20"},
-    {"question": "How many dining halls do we have on campus", "expects": "7"},
+    {"question": "What is winter like", "expects": "Cold from mid-November to early March"},
 ]
 
 # Questions from a different world entirely. Your gate should refuse all five.

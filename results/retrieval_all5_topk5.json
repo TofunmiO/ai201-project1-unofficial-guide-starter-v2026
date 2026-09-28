@@ -1,0 +1,177 @@
+[
+  {
+    "question": "How much dollar does every student get for printing per semester",
+    "expects": "30",
+    "best": {
+      "distance": 0.2528783934343408,
+      "source": "admin_printing_quota.txt"
+    },
+    "results": [
+      {
+        "rank": 1,
+        "distance": 0.2528783934343408,
+        "source": "admin_printing_quota.txt"
+      },
+      {
+        "rank": 2,
+        "distance": 0.5121281246140903,
+        "source": "money_textbooks.txt"
+      },
+      {
+        "rank": 3,
+        "distance": 0.5616709180775494,
+        "source": "admin_dining_dollars.txt"
+      },
+      {
+        "rank": 4,
+        "distance": 0.583324244818824,
+        "source": "money_jobs.txt"
+      },
+      {
+        "rank": 5,
+        "distance": 0.6053206154622106,
+        "source": "admin_campus_jobs_and_financial_aid.txt"
+      }
+    ]
+  },
+  {
+    "question": "What are the walk-in hours for the health centre",
+    "expects": "8am to 11am",
+    "best": {
+      "distance": 0.1750206187633231,
+      "source": "health_center.txt"
+    },
+    "results": [
+      {
+        "rank": 1,
+        "distance": 0.1750206187633231,
+        "source": "health_center.txt"
+      },
+      {
+        "rank": 2,
+        "distance": 0.5610056822350135,
+        "source": "transit_walking.txt"
+      },
+      {
+        "rank": 3,
+        "distance": 0.6168725609067537,
+        "source": "dining_the_ridgeway_cafe_followup.txt"
+      },
+      {
+        "rank": 4,
+        "distance": 0.62475568201691,
+        "source": "transit_shuttle.txt"
+      },
+      {
+        "rank": 5,
+        "distance": 0.6321608800691996,
+        "source": "dining_the_ridgeway_cafe.txt"
+      }
+    ]
+  },
+  {
+    "question": "What are the library hours during reading week",
+    "expects": "Open until 10pm",
+    "best": {
+      "distance": 0.4315745368918632,
+      "source": "study_library_hours.txt"
+    },
+    "results": [
+      {
+        "rank": 1,
+        "distance": 0.4315745368918632,
+        "source": "study_library_hours.txt"
+      },
+      {
+        "rank": 2,
+        "distance": 0.46650990345106014,
+        "source": "housing_morrow_house_noise.txt"
+      },
+      {
+        "rank": 3,
+        "distance": 0.4742011684026355,
+        "source": "study_group_rooms.txt"
+      },
+      {
+        "rank": 4,
+        "distance": 0.4801802033240452,
+        "source": "money_jobs.txt"
+      },
+      {
+        "rank": 5,
+        "distance": 0.4857266345858078,
+        "source": "money_textbooks.txt"
+      }
+    ]
+  },
+  {
+    "question": "The lab practical for phys 130 mechanics course is worth how many percent",
+    "expects": "20",
+    "best": {
+      "distance": 0.19322948875892698,
+      "source": "course_phys_130_exams.txt"
+    },
+    "results": [
+      {
+        "rank": 1,
+        "distance": 0.19322948875892698,
+        "source": "course_phys_130_exams.txt"
+      },
+      {
+        "rank": 2,
+        "distance": 0.20037992706139285,
+        "source": "course_phys_130.txt"
+      },
+      {
+        "rank": 3,
+        "distance": 0.48237101112667213,
+        "source": "course_phys_130_workload.txt"
+      },
+      {
+        "rank": 4,
+        "distance": 0.6054545752260887,
+        "source": "course_cs_210_exams.txt"
+      },
+      {
+        "rank": 5,
+        "distance": 0.6281216384079669,
+        "source": "course_biol_160.txt"
+      }
+    ]
+  },
+  {
+    "question": "How many dining halls do we have on campus",
+    "expects": "7",
+    "best": {
+      "distance": 0.4670243776968117,
+      "source": "money_jobs.txt"
+    },
+    "results": [
+      {
+        "rank": 1,
+        "distance": 0.4670243776968117,
+        "source": "money_jobs.txt"
+      },
+      {
+        "rank": 2,
+        "distance": 0.4819772427436336,
+        "source": "dining_pellew_dining_hall_followup.txt"
+      },
+      {
+        "rank": 3,
+        "distance": 0.4922653905606674,
+        "source": "housing_aldridge_hall.txt"
+      },
+      {
+        "rank": 4,
+        "distance": 0.5012605789355343,
+        "source": "housing_tamsin_court.txt"
+      },
+      {
+        "rank": 5,
+        "distance": 0.5205682965104566,
+        "source": "housing_innisfree_hall.txt"
+      }
+    ]
+  }
+]
