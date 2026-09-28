@@ -51,12 +51,10 @@ in at least 4 of 5 tries.
 **Why this target:**
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
-To ensure that at least 80% of the time, it does not fail when there is nothing to answer from
----
+To ensure that at least 80% of the time, it does not fail when there is nothing to answer from.
 
-## 4. Something about your chunks
 
-No chunk is longer than 90 words or shorter than 200 characters.
+## 4. Something about your chunks - No chunk is longer than 90 words or shorter than 200 characters.
 
 <!-- "No chunk is longer than 90 words, since anything that contains more than 1+ topics makes it hard to understand which part answers the question. we do not wnat a  retrival of loosely related text" -->
 <!-- YOU WRITE THIS ONE.
@@ -79,8 +77,7 @@ No chunk is shorter than 200 characters to ensure that no chunk is too small tha
 
 ---
 
-## 5. Your choice
-In a random sample of 5 chunks, at least 4 must read as a complete thought.
+## 5. Your choice - In a random sample of 5 chunks, at least 4 must read as a complete thought.
 
 <!-- YOU WRITE THIS ONE TOO.
 

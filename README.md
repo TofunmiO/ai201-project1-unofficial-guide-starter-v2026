@@ -59,69 +59,69 @@ Oluwatofunmi Oyetan corpus: campus_life
 
      Milestone 3. -->
      ======================================================================
-Chunk 1  |  source: thread_bike_commute.txt#0  |  produced by: chunker.py::split_documents
-======================================================================
-THREAD: Is a bike worth it for a 20 minute walk commute?
+     Chunk 1  |  source: thread_bike_commute.txt#0  |  produced by: chunker.py::split_documents
+     ======================================================================
+     THREAD: Is a bike worth it for a 20 minute walk commute?
 
---- reply 1 (14 votes) ---
-Yeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three.
+     --- reply 1 (14 votes) ---
+     Yeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three.
 
---- reply 2 (9 votes) ---
-Counterpoint, I sold mine. Between November and March the paths are either icy or salted and salt destroys a drivetrain in one season.
+     --- reply 2 (9 votes) ---
+     Counterpoint, I sold mine. Between November and March the paths are either icy or salted and salt destroys a drivetrain in one season.
 
---- reply 3 (22 votes) ---
-Both true. I keep a cheap bike for September to November and walk the rest of the year. Total cost was about $120 for the bike and I don't care what happens to it.
+     --- reply 3 (22 votes) ---
+     Both true. I keep a cheap bike for September to November and walk the rest of the year. Total cost was about $120 for the bike and I don't care what happens to it.
 
---- reply 4 (5 votes) ---
-If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
+     --- reply 4 (5 votes) ---
+     If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
 
-======================================================================
-Chunk 2  |  source: thread_first_gen.txt#0  |  produced by: chunker.py::split_documents
-======================================================================
-THREAD: Anything specific for first-generation students?
+     ======================================================================
+     Chunk 2  |  source: thread_first_gen.txt#0  |  produced by: chunker.py::split_documents
+     ======================================================================
+     THREAD: Anything specific for first-generation students?
 
---- reply 1 (33 votes) ---
-The advising office has a specific programme and it is genuinely good, but it is opt-in and badly publicised. Ask for it by name.
+     --- reply 1 (33 votes) ---
+     The advising office has a specific programme and it is genuinely good, but it is opt-in and badly publicised. Ask for it by name.
 
-======================================================================
-Chunk 3  |  source: thread_laptop_specs.txt#0  |  produced by: chunker.py::split_documents
-======================================================================
-THREAD: How much laptop do I actually need for CS courses?
+     ======================================================================
+     Chunk 3  |  source: thread_laptop_specs.txt#0  |  produced by: chunker.py::split_documents
+     ======================================================================
+     THREAD: How much laptop do I actually need for CS courses?
 
---- reply 1 (31 votes) ---
-Less than the recommended spec page says. 16GB of RAM is the one number worth paying for; everything else you'll never notice.
+     --- reply 1 (31 votes) ---
+     Less than the recommended spec page says. 16GB of RAM is the one number worth paying for; everything else you'll never notice.
 
---- reply 2 (18 votes) ---
-Adding: the lab machines exist and are better than anything you'll buy. For the heavy assignments people just use those.
+     --- reply 2 (18 votes) ---
+     Adding: the lab machines exist and are better than anything you'll buy. For the heavy assignments people just use those.
 
---- reply 3 (12 votes) ---
-I did two years on an 8GB machine and it was fine until the last project, at which point it very much wasn't. 16 is the answer.
+     --- reply 3 (12 votes) ---
+     I did two years on an 8GB machine and it was fine until the last project, at which point it very much wasn't. 16 is the answer.
 
-======================================================================
-Chunk 4  |  source: thread_meal_plan_tier.txt#1  |  produced by: chunker.py::split_documents
-======================================================================
---- reply 1 (24 votes) ---
-Depends entirely on whether your building has a kitchen. Fenwick has kitchenettes, so people there go down a tier and cook two or three nights. Everywhere else, get the middle tier.
+     ======================================================================
+     Chunk 4  |  source: thread_meal_plan_tier.txt#1  |  produced by: chunker.py::split_documents
+     ======================================================================
+     --- reply 1 (24 votes) ---
+     Depends entirely on whether your building has a kitchen. Fenwick has kitchenettes, so people there go down a tier and cook two or three nights. Everywhere else, get the middle tier.
 
---- reply 2 (19 votes) ---
-The highest tier only makes sense if you eat three meals a day in the halls every single day, which basically nobody does past October.
+     --- reply 2 (19 votes) ---
+     The highest tier only makes sense if you eat three meals a day in the halls every single day, which basically nobody does past October.
 
---- reply 3 (11 votes) ---
-Remember you can only change it once and only in the first ten days. I waited and got stuck on a plan I didn't use.
+     --- reply 3 (11 votes) ---
+     Remember you can only change it once and only in the first ten days. I waited and got stuck on a plan I didn't use.
 
---- reply 4 (7 votes) ---
-Declining balance rolls within the semester but not between them. Spend it in December or lose it.
+     --- reply 4 (7 votes) ---
+     Declining balance rolls within the semester but not between them. Spend it in December or lose it.
 
-======================================================================
-Chunk 5  |  source: thread_printing.txt#0  |  produced by: chunker.py::split_documents
-======================================================================
-THREAD: Is the printing quota enough?
+     ======================================================================
+     Chunk 5  |  source: thread_printing.txt#0  |  produced by: chunker.py::split_documents
+     ======================================================================
+     THREAD: Is the printing quota enough?
 
---- reply 1 (17 votes) ---
-For most people yes. $30 is about 600 pages black and white. It's the colour printing that eats it — eight times the cost per page.
+     --- reply 1 (17 votes) ---
+     For most people yes. $30 is about 600 pages black and white. It's the colour printing that eats it — eight times the cost per page.
 
---- reply 2 (11 votes) ---
-Doesn't roll over between semesters. Print your readings in December rather than losing it.
+     --- reply 2 (11 votes) ---
+     Doesn't roll over between semesters. Print your readings in December rather than losing it.
 
 ## Sample Answer
 
