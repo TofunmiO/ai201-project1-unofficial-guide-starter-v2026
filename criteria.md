@@ -51,7 +51,7 @@ in at least 4 of 5 tries.
 **Why this target:**
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
-Measured distances showed max in-corpus = 0.4670 and min out-of-scope = 0.8246, so the midpoint (~0.646) makes anything below it covered and anything above it unsupported. Requiring the relevance gate to refuse at least 4 of 5 OUT_OF_SCOPE checks verifies this separation and reduces hallucination risk.
+Measured distances showed max in-corpus = 0.4670 and min out-of-scope = 0.8246, so the midpoint (~0.646) makes anything below it covered and anything above it unsupported, requiring the relevance gate to refuse at least 4 of 5 OUT_OF_SCOPE checks verifies this separation and reduces hallucination risk.
 
 
 ## 4. Something about your chunks - No chunk is longer than 90 words or shorter than 200 characters.
