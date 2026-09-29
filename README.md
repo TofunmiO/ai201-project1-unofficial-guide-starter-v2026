@@ -35,8 +35,9 @@ Oluwatofunmi Oyetan corpus: campus_life
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size:** 800 characters — corpus documents are short forum threads, so 800 chars keeps whole replies and short multi-reply threads together while limiting chunk scope.
+
+**Overlap:** 120 characters — a modest overlap preserves sentence context across chunk boundaries and prevents cutting important phrases.
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
