@@ -26,6 +26,11 @@ For at least 4 of my 5 test questions, the retrieved chunks include one that con
      I expect that one to be hard." -->
 The model can only use what was retrieved. At least 4 out of five the retrieval should be effective and should contain an answer (the excat phrase and can span overlap)
 
+> **Sharpened in unit 2:** `campus_life` is 88 short documents that each
+> collapse into one chunk, so a miss here means retrieval picked the wrong
+> document, not that the answer got split. All five questions' best distances
+> (0.175–0.432, from measure_cutoff.py) sit well under my 0.646 cutoff, so I expect close to 5 of 5.
+
 ---
 
 ## 2. Every answer names a source
@@ -74,6 +79,11 @@ Measured distances showed max in-corpus = 0.4670 and min out-of-scope = 0.8246, 
 **Why this target:**
 No chunk is shorter than 200 characters to ensure that no chunk is too small that there is no relevant answer or longer than 90 words that it is too long that it become hard to pinpoint the answer.
 
+> **Sharpened in unit 2:** One of my documents
+> (`course_phys_130_exams.txt`) is only 194 characters total, so it can never
+> reach the 200-character floor no matter how it's chunked. The 90-word cap
+> matches my chunk size (800 characters), which could otherwise mix two
+> separate replies into one chunk.
 
 ---
 
@@ -92,6 +102,11 @@ No chunk is shorter than 200 characters to ensure that no chunk is too small tha
 **Why this target:**
 4/5 To ensure that no sentence cut in half at either end incase chunking stops mid sentence or mid thought
 
+> **Sharpened in unit 2:** My chunker splits on blank lines, which keeps a
+> full reply or post together on this corpus. The only way a sentence gets
+> cut is the fallback that chops at exactly 800 characters, and my longest
+> document is 549 characters, so that fallback never actually runs here —
+> which is why I expect close to 5 of 5, not just 4.
 
 ---
 
