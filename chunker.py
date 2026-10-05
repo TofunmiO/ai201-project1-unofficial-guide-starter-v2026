@@ -105,6 +105,7 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
     chunk_size = config.CHUNK_SIZE
     overlap = config.CHUNK_OVERLAP
     min_chars = 200  # the floor criterion 4 names; a lone title paragraph should never survive as its own chunk
+    max_words = 90   # the cap criterion 4 names; a chunk this dense is covering more than one topic
 
     if overlap >= chunk_size:
         raise ValueError("overlap has to be smaller than chunk_size")
@@ -114,40 +115,53 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
         # split on blank lines
         paras = [p.strip() for p in re.split(r"\n\s*\n+", doc.text) if p.strip()]
 
-        # merge tiny paras into previous
+        # merge tiny paras into previous, but never past the word cap —
+        # otherwise four short replies (each fine on its own) can pile into
+        # one chunk that's technically under chunk_size but covers four topics
         merged: list[str] = []
         for p in paras:
             if not merged:
                 merged.append(p)
                 continue
             tiny_threshold = max(50, chunk_size // 4)
-            if len(p) < tiny_threshold and len(merged[-1]) + 2 + len(p) <= chunk_size:
-                merged[-1] = merged[-1] + "\n\n" + p
+            combined = merged[-1] + "\n\n" + p
+            if (len(p) < tiny_threshold
+                    and len(combined) <= chunk_size
+                    and len(combined.split()) <= max_words):
+                merged[-1] = combined
             else:
                 merged.append(p)
 
         # The pass above only merges a tiny paragraph *backward*, so a
         # document's first paragraph (its title) has nothing earlier to merge
         # into and always survives alone. Fold anything still under min_chars
-        # forward into the block that follows it instead.
+        # forward into the block that follows it instead — unless that would
+        # push the result over the word cap, in which case the short block
+        # stays short rather than trading one violation for the other.
         i = 0
         while i < len(merged) - 1:
-            if len(merged[i]) < min_chars:
-                merged[i + 1] = merged[i] + "\n\n" + merged[i + 1]
+            combined = merged[i] + "\n\n" + merged[i + 1]
+            if len(merged[i]) < min_chars and len(combined.split()) <= max_words:
+                merged[i + 1] = combined
                 del merged[i]
             else:
                 i += 1
         if len(merged) > 1 and len(merged[-1]) < min_chars:
-            merged[-2] = merged[-2] + "\n\n" + merged[-1]
-            merged.pop()
+            combined = merged[-2] + "\n\n" + merged[-1]
+            if len(combined.split()) <= max_words:
+                merged[-2] = combined
+                merged.pop()
 
         index = 0
         prev_tail = ""
         for block in merged:
             # carry the tail of the previous chunk forward so consecutive
-            # chunks in the same document actually overlap
+            # chunks in the same document actually overlap — but skip it if
+            # it would push this chunk over the word cap
             text = f"{prev_tail}\n\n{block}" if prev_tail else block
-            if len(text) <= chunk_size:
+            if prev_tail and len(text.split()) > max_words:
+                text = block
+            if len(text) <= chunk_size and len(text.split()) <= max_words:
                 chunks.append(Chunk(text=text, source=doc.source, index=index, produced_by="chunker.py::split_documents"))
                 index += 1
                 prev_tail = text[-overlap:] if overlap else ""

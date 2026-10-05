@@ -227,14 +227,14 @@ This sits squarely in the gap and avoids false accepts while still answering in�
 | 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 4. No chunk >90 words or <200 characters | 88 of 88 | 83/88 | 83/88 | 83/88 | MISSED |
+| 4. No chunk >90 words or <200 characters | 89 of 89 | 85/89 | 85/89 | 85/89 | MISSED |
 | 5. Random sample of 5 chunks reads as a complete thought | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
-Full evidence: [`results/run_2026-10-04_2212_before.md`](results/run_2026-10-04_2212_before.md),
+Full evidence: [`results/run_2026-10-04_2235_before.md`](results/run_2026-10-04_2235_before.md),
 produced by `run_eval.py::main` (3 runs per question, caching off, `scorer.py::judge`
 marking pass/fail) and `run_eval.py::check_out_of_scope` (the gate pass).
 
@@ -283,16 +283,23 @@ Out-of-scope questions (the gate should refuse these):
 > running `chunker.py::split_documents` directly. Chunking is deterministic
 > (no model call), so there's one measurement, same as criterion 3.
 
-**Criterion 4** — all 88 chunks from `chunker.py::split_documents` (via
-`ingest.py::load_documents`): 1 chunk over 90 words, 4 chunks under 200
-characters, 83/88 compliant. The 4 short ones are no longer split-off
-titles — they're whole documents that are themselves under 200 characters,
-so no merge rule can fix them without inventing content:
+**Criterion 4** — all 89 chunks from `chunker.py::split_documents` (via
+`ingest.py::load_documents`): 0 chunks over 90 words, 4 chunks under 200
+characters, 85/89 compliant. The word cap is now enforced during merging —
+`housing_old_brewhouse.txt`, previously one 98-word chunk, now splits into two
+overlapping chunks (64 and 58 words) instead. The 4 remaining short chunks are
+whole documents that are themselves under 200 characters, so no merge rule can
+fix them without inventing content:
 
 ```
-too long (>90 words): 1 ['housing_old_brewhouse.txt#0']
+too long (>90 words): 0
 too short (<200 chars): 4 ['course_biol_160_exams.txt#0', 'course_hist_118_exams.txt#0',
                            'course_math_220_exams.txt#0', 'course_phys_130_exams.txt#0']
+
+>>> housing_old_brewhouse.txt, now 2 chunks instead of 1:
+#0 (358 chars, 64 words)
+#1 (311 chars, 58 words), overlapping #0's tail ("...people get attached to it.
+The bad: the heating is uneven...")
 
 >>> course_phys_130_exams.txt (194 chars total)
 'PHYS 130 Mechanics — assessment\n\nThree midterms, no final, plus a lab
@@ -304,15 +311,15 @@ practical is worth 20% and almost nobody prepares for it.'
 `chunker.py::split_documents`:
 
 ```
-===== money_textbooks.txt#0 (374 chars, 62 words)
-Textbooks without paying full price
+===== money_jobs.txt#0 (343 chars, 62 words)
+On-campus work
 
-The library holds one copy of most required texts on two-hour reserve. For
-courses where the text is used constantly that isn't enough, but for the
-reading-light courses it's genuinely all you need.
+Library and dining jobs post in the first week of each semester and go
+fast. Pay is the same across departments — the difference is whether you can
+study during the shift. Library desk: usually yes. Dining: no.
 
-The campus store price-matches, which is not advertised anywhere and you
-have to ask at the counter with the other listing on your phone.
+Maximum is 20 hours a week during term. Most people find 10 to 12 is the
+point where it stops affecting coursework.
 
 ===== admin_wifi_and_accounts.txt#0 (283 chars, 48 words)
 On the wifi and accounts
