@@ -407,6 +407,42 @@ I'd hit.
 
      Milestone 3. -->
 
+I missed criterion 4. 
+This miss was caused at the chunking stage.
+
+**Mechanism:** `chunker.py::split_documents` enforces the 200-character floor
+by merging a too-short block forward into the next block — but only *within
+the same document*, by design, so a chunk never mixes content from two
+unrelated documents (which would break the per-document source attribution
+criterion 2 depends on). The 4 violating chunks are documents that are
+themselves under 200 characters in their entirety, so there's no second block
+in that document for the merge step to reach.
+
+**Pattern, not four separate problems:** all 4 misses are the same *type* of
+document — a short "exam policy" post for a course (`course_*_exams.txt`).
+Checking all 9 documents of that type shows why: they cluster tightly from
+178 to 237 characters, straddling the 200-character line almost by chance.
+
+```
+178 course_hist_118_exams.txt   <- miss
+186 course_math_220_exams.txt   <- miss
+191 course_biol_160_exams.txt   <- miss
+194 course_phys_130_exams.txt   <- miss
+205 course_engl_205_exams.txt
+206 course_cs_340_exams.txt
+210 course_stat_150_exams.txt
+231 course_econ_101_exams.txt
+237 course_cs_210_exams.txt
+```
+
+So this is one specific, terse document
+format in this corpus sitting right at the floor, with roughly half of them
+landing just under it. A fix that doesn't compromise source attribution would
+need a deliberate per-document-type strategy (e.g. merging a course's
+`_exams` and `_workload` posts into one chunk), not a blanket character-count
+change.
+
+
 ## The Improvement
 
 **What I changed:**
