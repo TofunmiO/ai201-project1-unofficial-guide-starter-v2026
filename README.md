@@ -197,6 +197,21 @@ This sits squarely in the gap and avoids false accepts while still answering in�
 - Asked: require answers cite filenames and refuse when unsupported.
 - Returned: prompt draft + wrapper; inconsistent refusal/evidence formatting.
 - Changed: added strict `GROUNDING_INSTRUCTION` in `generate.py` and updated `Sample Answer`.
+
+3) Diagnosing criterion 4 (unit 2)
+
+- Asked: diagnose why criterion 4 failed — I had a guess (one 194-char
+  document, floor set a bit high) and asked it to check.
+- Returned: a sharper pattern than my guess — all 4 misses are the same
+  document type (`course_*_exams.txt`), clustering 178–237 chars, right at
+  the line. It proposed and wrote the fix (`ingest.py::merge_short_exam_siblings`).
+- Changed: I pushed back, asking if pairing documents from different courses
+  was a problem — really because I was worried a merged chunk might not
+  stay on one topic. It checked and showed the pairs were same-course, but
+  that prompted it to name the real cost I was actually worried about:
+  merging "_exams" and "_workload" content trades char-count compliance for
+  mixing two topics into one chunk. I kept that as the "What I'd Do
+  Differently" note instead of letting the clean MET hide it.
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -518,9 +533,44 @@ embeddings changed slightly, but all 5 are still refused by a wide margin.
 
      Milestone 5. -->
 
+No criterion is currently measured as MISSED — all five are MET after the fix.
+However, there is something still broken.
+
+The sibling-merge fix traded one problem for a smaller, unmeasured one.
+Criterion 4's word/character bounds exist as a proxy for a real goal stated
+in `criteria.md`: a chunk shouldn't cover more than one topic. Merging
+`course_phys_130_exams.txt` with `course_phys_130_workload.txt` (and the
+other 3 pairs) clears the proxy — 85/85, zero violations — but it does stitch
+two distinct facets of a course (assessment structure, weekly hours) into one
+chunk. None of my five test questions can catch this, because none of them
+asks specifically about workload *or* exam structure for one of the 4
+affected courses in a way that would surface the other topic bleeding in.
+
+**What I'd do about it:** add a test question that isolates just one of the
+two merged topics for an affected course — e.g. "How many hours a week does
+PHYS 130 take?" — and check whether the answer stays on-topic rather than
+padding itself with exam details it didn't need. If that turns out fine in
+practice, the trade is worth it; if it doesn't, the merge needs a tighter
+rule (e.g. only merge the paragraphs that are actually short, not the whole
+sibling file).
+
+**Why I stopped here:** this milestone asked for one change, measured
+properly against the existing five criteria — and it does pass all five
+cleanly. Building a new criterion and new test questions for topic purity is
+real work, not a quick addition, and I do not have enough time to get it done now.
+
 ## What I'd Do Differently
 
 <!-- Knowing what you know now — which of your five criteria would you write
      differently, and why?
 
      Milestone 5. -->
+
+Criterion 4. The word/character limits are a stand-in for what I actually
+want: one topic per chunk. My fix passed the numbers by merging two
+different topics (exam structure and workload) into one chunk — so the
+score went from MISSED to MET while the real thing it was supposed to
+protect got worse. Next unit I'd write it like criterion 5 instead: "at
+least 4 of 5 sampled chunks cover exactly one topic, judged by reading."
+That way, merging two topics to pass the check would count as a miss, not
+a win.
