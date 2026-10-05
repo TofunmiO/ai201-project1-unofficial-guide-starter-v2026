@@ -224,15 +224,128 @@ This sits squarely in the gap and avoids false accepts while still answering in�
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. |  | | | | |
-| 5.| | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. No chunk >90 words or <200 characters | 124 of 124 | 83/124 | 83/124 | 83/124 | MISSED |
+| 5. Random sample of 5 chunks reads as a complete thought | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
+Full evidence: [`results/run_2026-10-04_2115_before.md`](results/run_2026-10-04_2115_before.md),
+produced by `run_eval.py::main` (3 runs per question, caching off, `scorer.py::judge`
+marking pass/fail) and `run_eval.py::check_out_of_scope` (the gate pass).
+
+**Criterion 1** — retrieved chunk for "What are the library hours during reading
+week" (distance 0.432), from `store.py::search`:
+
+```
+Library hours and where to actually sit
+
+Open until 2am during term, until 10pm during reading week, which is backwards
+and catches everyone out every single year.
+```
+
+The question's `expects` phrase is "Open until 10pm" — not a literal substring
+of the chunk, but the chunk plainly contains the answer, which is the actual
+test. All 5 questions had the answer in their top-5 retrieved chunks, and
+retrieval is deterministic (same best distance all 3 runs), so this doesn't
+move between runs.
+
+**Criterion 2** — answer for "How much dollar does every student get for
+printing per semester" (run 1 of 3), from `generate.py::answer_from_chunks`:
+
+```
+Every student gets $30 of printing per semester.
+
+Evidence: admin_printing_quota.txt
+```
+
+All 15 answers (5 questions × 3 runs) named at least one source the same way.
+
+**Criterion 3** — `run_eval.py::check_out_of_scope`, calling `gate.py::check`:
+
+```
+Out-of-scope questions (the gate should refuse these):
+  refused  (best distance 0.825)  What is the capital of Mongolia?
+  refused  (best distance 0.934)  How do I change the oil in a diesel engine?
+  refused  (best distance 0.886)  Who won the 1994 World Cup?
+  refused  (best distance 0.844)  What is the recommended dosage of ibuprofen for a headache?
+  refused  (best distance 0.896)  How do I write a for loop in Rust?
+  -> gate refused 5 of 5
+```
+
+> Criteria 4 and 5 are about chunk quality, not question-answering, so
+> `run_eval.py` doesn't measure them — it only calls `store.search`,
+> `generate.answer_from_chunks`, and `gate.check`. The numbers below came from
+> running `chunker.py::split_documents` directly. Chunking is deterministic
+> (no model call), so there's one measurement, same as criterion 3.
+
+**Criterion 4** — all 124 chunks from `chunker.py::split_documents` (via
+`ingest.py::load_documents`): 1 chunk over 90 words, 40 chunks under 200
+characters, 83/124 compliant. Every one of the 40 short chunks is a
+document's title, split off on its own because the paragraph-merge loop only
+merges a tiny paragraph *backward* into the one before it — the very first
+paragraph in a document has nothing before it to merge into, so it always
+survives as its own chunk:
+
+```
+>>> chunks for dining_the_atrium.txt
+#0 (10 chars): 'The Atrium'
+#1 (409 chars): "Transferred in last year, so take this with a grain of salt. ..."
+
+>>> chunks for admin_printing_quota.txt
+#0 (21 chars): 'On the printing quota'
+#1 (207 chars): 'Every student gets $30 of printing per semester, ...'
+```
+
+**Criterion 5** — random sample of 5 chunks (`random.seed(42)`), from
+`chunker.py::split_documents`:
+
+```
+===== dining_the_ridgeway_cafe.txt#1 (318 chars, 58 words)
+Second-year here. Wait times: 10 to 15 minutes at 12:30, none after 2:00. The
+thing worth going for is the only place on campus with real espresso. The
+thing to know is that seating is tight; about 40 seats for a building of 900.
+
+Hours are 7:00am to 4:00pm weekdays only. Costs declining balance only, no
+meal swipes.
+
+===== admin_library_holds.txt#1 (232 chars, 40 words)
+You can place a hold on a checked-out book and it usually arrives in two to
+three days. What isn't advertised: the interlibrary system covers eleven
+other institutions and requests through it take about a week but almost
+never fail.
+
+===== admin_campus_jobs_and_financial_aid.txt#1 (223 chars, 35 words)
+Work-study earnings don't count against your financial aid the way ordinary
+income does. Non-work-study campus jobs pay the same and do count, which is a
+difference worth understanding before you take the first job offered.
+
+===== housing_calder_annexe_noise.txt#0 (286 chars, 50 words)
+Noise levels in Calder Annexe
+
+Asked about this a lot so writing it down. Depends entirely on your cluster;
+there's no building-wide pattern.
+
+If you're someone who needs quiet to work, the library is open until 2am
+during term and that's what most people in this building end up doing.
+
+===== course_cs_210.txt#1 (398 chars, 73 words)
+I'm a junior and I've done this twice now. Format is lecture with weekly
+labs; slides go up after class, not before. Assessment: two midterms and a
+final, all drawn from lecture material rather than the textbook. Midterms
+are curved, the final is not.
+
+Expect 8 to 10 hours a week outside class.
+
+The one piece of advice: do the labs even though they're only 10% — the
+exams reuse the lab problems.
+```
+
+All 5 read as complete thoughts, no sentence cut off at either end.
 
 ## Verdicts
 

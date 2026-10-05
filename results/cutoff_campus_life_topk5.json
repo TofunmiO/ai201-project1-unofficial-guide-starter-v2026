@@ -1,0 +1,69 @@
+{
+  "produced_by": "measure_cutoff.py::main",
+  "retrieval": "store.py::search",
+  "corpus": "campus_life",
+  "variant": "default",
+  "top_k": 5,
+  "rows": [
+    {
+      "question": "How much dollar does every student get for printing per semester",
+      "in_corpus": true,
+      "best_distance": 0.2528783934343408,
+      "best_source": "admin_printing_quota.txt"
+    },
+    {
+      "question": "What are the walk-in hours for the health centre",
+      "in_corpus": true,
+      "best_distance": 0.1750206187633231,
+      "best_source": "health_center.txt"
+    },
+    {
+      "question": "What are the library hours during reading week",
+      "in_corpus": true,
+      "best_distance": 0.4315745368918632,
+      "best_source": "study_library_hours.txt"
+    },
+    {
+      "question": "The lab practical for phys 130 mechanics course is worth how many percent",
+      "in_corpus": true,
+      "best_distance": 0.19322948875892698,
+      "best_source": "course_phys_130_exams.txt"
+    },
+    {
+      "question": "What is winter like",
+      "in_corpus": true,
+      "best_distance": 0.36980754194760534,
+      "best_source": "winter_gear.txt"
+    },
+    {
+      "question": "What is the capital of Mongolia?",
+      "in_corpus": false,
+      "best_distance": 0.8245932411268596,
+      "best_source": "course_hist_118_exams.txt"
+    },
+    {
+      "question": "How do I change the oil in a diesel engine?",
+      "in_corpus": false,
+      "best_distance": 0.9340106947375946,
+      "best_source": "admin_meal_plan_changes.txt"
+    },
+    {
+      "question": "Who won the 1994 World Cup?",
+      "in_corpus": false,
+      "best_distance": 0.8858601031703384,
+      "best_source": "course_hist_118_exams.txt"
+    },
+    {
+      "question": "What is the recommended dosage of ibuprofen for a headache?",
+      "in_corpus": false,
+      "best_distance": 0.8442316952823572,
+      "best_source": "money_textbooks.txt"
+    },
+    {
+      "question": "How do I write a for loop in Rust?",
+      "in_corpus": false,
+      "best_distance": 0.895997647190278,
+      "best_source": "course_hist_118_exams.txt"
+    }
+  ]
+}

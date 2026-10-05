@@ -104,6 +104,7 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
     # Paragraph-based splitting strategy -  since i am using campus_life, i think splitting by paragraph is reasonable since the posts in the documents are short reviews.
     chunk_size = config.CHUNK_SIZE
     overlap = config.CHUNK_OVERLAP
+    min_chars = 200  # the floor criterion 4 names; a lone title paragraph should never survive as its own chunk
 
     if overlap >= chunk_size:
         raise ValueError("overlap has to be smaller than chunk_size")
@@ -125,20 +126,42 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
             else:
                 merged.append(p)
 
+        # The pass above only merges a tiny paragraph *backward*, so a
+        # document's first paragraph (its title) has nothing earlier to merge
+        # into and always survives alone. Fold anything still under min_chars
+        # forward into the block that follows it instead.
+        i = 0
+        while i < len(merged) - 1:
+            if len(merged[i]) < min_chars:
+                merged[i + 1] = merged[i] + "\n\n" + merged[i + 1]
+                del merged[i]
+            else:
+                i += 1
+        if len(merged) > 1 and len(merged[-1]) < min_chars:
+            merged[-2] = merged[-2] + "\n\n" + merged[-1]
+            merged.pop()
+
         index = 0
+        prev_tail = ""
         for block in merged:
-            if len(block) <= chunk_size:
-                chunks.append(Chunk(text=block, source=doc.source, index=index, produced_by="chunker.py::split_documents"))
+            # carry the tail of the previous chunk forward so consecutive
+            # chunks in the same document actually overlap
+            text = f"{prev_tail}\n\n{block}" if prev_tail else block
+            if len(text) <= chunk_size:
+                chunks.append(Chunk(text=text, source=doc.source, index=index, produced_by="chunker.py::split_documents"))
                 index += 1
+                prev_tail = text[-overlap:] if overlap else ""
                 continue
             # long block: windowed split
             start = 0
-            while start < len(block):
-                piece = block[start : start + chunk_size].strip()
+            piece = ""
+            while start < len(text):
+                piece = text[start : start + chunk_size].strip()
                 if piece:
                     chunks.append(Chunk(text=piece, source=doc.source, index=index, produced_by="chunker.py::split_documents"))
                     index += 1
                 start += chunk_size - overlap
+            prev_tail = piece[-overlap:] if overlap else ""
 
     return chunks
 
