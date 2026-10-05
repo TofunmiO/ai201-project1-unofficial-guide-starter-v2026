@@ -227,14 +227,14 @@ This sits squarely in the gap and avoids false accepts while still answering in�
 | 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 4. No chunk >90 words or <200 characters | 124 of 124 | 83/124 | 83/124 | 83/124 | MISSED |
+| 4. No chunk >90 words or <200 characters | 88 of 88 | 83/88 | 83/88 | 83/88 | MISSED |
 | 5. Random sample of 5 chunks reads as a complete thought | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
-Full evidence: [`results/run_2026-10-04_2115_before.md`](results/run_2026-10-04_2115_before.md),
+Full evidence: [`results/run_2026-10-04_2212_before.md`](results/run_2026-10-04_2212_before.md),
 produced by `run_eval.py::main` (3 runs per question, caching off, `scorer.py::judge`
 marking pass/fail) and `run_eval.py::check_out_of_scope` (the gate pass).
 
@@ -283,66 +283,72 @@ Out-of-scope questions (the gate should refuse these):
 > running `chunker.py::split_documents` directly. Chunking is deterministic
 > (no model call), so there's one measurement, same as criterion 3.
 
-**Criterion 4** — all 124 chunks from `chunker.py::split_documents` (via
-`ingest.py::load_documents`): 1 chunk over 90 words, 40 chunks under 200
-characters, 83/124 compliant. Every one of the 40 short chunks is a
-document's title, split off on its own because the paragraph-merge loop only
-merges a tiny paragraph *backward* into the one before it — the very first
-paragraph in a document has nothing before it to merge into, so it always
-survives as its own chunk:
+**Criterion 4** — all 88 chunks from `chunker.py::split_documents` (via
+`ingest.py::load_documents`): 1 chunk over 90 words, 4 chunks under 200
+characters, 83/88 compliant. The 4 short ones are no longer split-off
+titles — they're whole documents that are themselves under 200 characters,
+so no merge rule can fix them without inventing content:
 
 ```
->>> chunks for dining_the_atrium.txt
-#0 (10 chars): 'The Atrium'
-#1 (409 chars): "Transferred in last year, so take this with a grain of salt. ..."
+too long (>90 words): 1 ['housing_old_brewhouse.txt#0']
+too short (<200 chars): 4 ['course_biol_160_exams.txt#0', 'course_hist_118_exams.txt#0',
+                           'course_math_220_exams.txt#0', 'course_phys_130_exams.txt#0']
 
->>> chunks for admin_printing_quota.txt
-#0 (21 chars): 'On the printing quota'
-#1 (207 chars): 'Every student gets $30 of printing per semester, ...'
+>>> course_phys_130_exams.txt (194 chars total)
+'PHYS 130 Mechanics — assessment\n\nThree midterms, no final, plus a lab
+practical. Not curved, but the lowest midterm is dropped.\n\nThe lab
+practical is worth 20% and almost nobody prepares for it.'
 ```
 
 **Criterion 5** — random sample of 5 chunks (`random.seed(42)`), from
 `chunker.py::split_documents`:
 
 ```
-===== dining_the_ridgeway_cafe.txt#1 (318 chars, 58 words)
-Second-year here. Wait times: 10 to 15 minutes at 12:30, none after 2:00. The
-thing worth going for is the only place on campus with real espresso. The
-thing to know is that seating is tight; about 40 seats for a building of 900.
+===== money_textbooks.txt#0 (374 chars, 62 words)
+Textbooks without paying full price
 
-Hours are 7:00am to 4:00pm weekdays only. Costs declining balance only, no
-meal swipes.
+The library holds one copy of most required texts on two-hour reserve. For
+courses where the text is used constantly that isn't enough, but for the
+reading-light courses it's genuinely all you need.
 
-===== admin_library_holds.txt#1 (232 chars, 40 words)
-You can place a hold on a checked-out book and it usually arrives in two to
-three days. What isn't advertised: the interlibrary system covers eleven
-other institutions and requests through it take about a week but almost
-never fail.
+The campus store price-matches, which is not advertised anywhere and you
+have to ask at the counter with the other listing on your phone.
 
-===== admin_campus_jobs_and_financial_aid.txt#1 (223 chars, 35 words)
-Work-study earnings don't count against your financial aid the way ordinary
-income does. Non-work-study campus jobs pay the same and do count, which is a
-difference worth understanding before you take the first job offered.
+===== admin_wifi_and_accounts.txt#0 (283 chars, 48 words)
+On the wifi and accounts
 
-===== housing_calder_annexe_noise.txt#0 (286 chars, 50 words)
-Noise levels in Calder Annexe
+Your student account gives you campus wifi, printing, and a cloud drive with
+unlimited storage that most people never discover. The account stays active
+for six months after you graduate, and the cloud drive is purged at that
+point without a second warning.
 
-Asked about this a lot so writing it down. Depends entirely on your cluster;
-there's no building-wide pattern.
+===== admin_dining_dollars.txt#0 (211 chars, 36 words)
+On the dining dollars
 
-If you're someone who needs quiet to work, the library is open until 2am
-during term and that's what most people in this building end up doing.
+Declining balance — what everyone calls dining dollars — rolls over from the
+autumn semester to the spring, but not from spring to the following autumn.
+Whatever is left in May disappears.
 
-===== course_cs_210.txt#1 (398 chars, 73 words)
-I'm a junior and I've done this twice now. Format is lecture with weekly
-labs; slides go up after class, not before. Assessment: two midterms and a
-final, all drawn from lecture material rather than the textbook. Midterms
-are curved, the final is not.
+===== course_math_220.txt#0 (383 chars, 65 words)
+MATH 220 Linear Algebra
 
-Expect 8 to 10 hours a week outside class.
+I lived here my sophomore year. Format is chalk-and-talk lecture, weekly
+problem sets marked for correctness. Assessment: two midterms and a
+cumulative final. Curved to a b- median.
 
-The one piece of advice: do the labs even though they're only 10% — the
-exams reuse the lab problems.
+Expect 6 to 8 hours a week, almost all of it on problem sets.
+
+The one piece of advice: the problem sets are the course; the lectures make
+sense afterwards rather than during.
+
+===== course_engl_205_workload.txt#0 (266 chars, 45 words)
+Workload for ENGL 205 Writing for the Sciences
+
+People keep asking so: 4 to 5 hours a week, mostly writing and rewriting.
+That's real time, not optimistic time.
+
+It's front-loaded — the first month is heavier than the rest, partly because
+you're learning the format.
 ```
 
 All 5 read as complete thoughts, no sentence cut off at either end.
