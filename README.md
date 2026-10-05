@@ -373,11 +373,19 @@ All 5 read as complete thoughts, no sentence cut off at either end.
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer (4 of 5) | MET | For each question I called `store.py::search` and read the chunk text it returned: 4 of 5 contained the `expects` phrase as a literal substring, and the 5th (library hours) needed a manual read to confirm — pasted above. 5/5 in each of the 3 runs, since retrieval doesn't change run to run. |
+| 2 | Every answer names a source (5 of 5) | MET | All 15 generated answers (5 questions × 3 runs) end with an "Evidence: filename" line, checked by reading every answer in `results/run_2026-10-04_2235_before.md`, not sampling. |
+| 3 | Gate stops out-of-corpus questions (4 of 5) | MET | `run_eval.py::check_out_of_scope` refused all 5 `OUT_OF_SCOPE` questions in its one deterministic pass (`results/run_2026-10-04_2235_before.md`); the worst in-scope distance there (0.4316, library hours) is still well clear of the closest out-of-scope distance (0.825, Mongolia), so it isn't a near miss. |
+| 4 | No chunk >90 words or <200 characters (89 of 89) | MISSED | 85 of 89 chunks comply, the same every time since chunking is deterministic. 0 are over 90 words now (fixed by enforcing the cap during merging). The 200-char floor *is* enforced — `chunker.py` merges a short block forward into its neighbor — but that only works within the same document; these 4 remaining chunks aren't fragments that failed to merge, each one *is* its entire source document (e.g. `course_phys_130_exams.txt` is 194 characters total), so there's no sibling chunk in that document for the merge step to combine it with. |
+| 5 | Random sample reads as complete thought (4 of 5) | MET | All 5 chunks in a fixed-seed (`random.seed(42)`) sample read start-to-finish with no sentence cut off at either end. |
+
+**On revising criteria:** none of the five need it. Every one was measurable
+exactly as written and gave the same result every time I checked it — this
+isn't a "scored it differently on Monday than Wednesday" situation for any of
+them. Criterion 4 is a genuine miss with a diagnosable, partly-fixable cause
+(I already fixed the word-cap half of it), not a broken target, so it stays
+as written and goes to Diagnoses rather than getting rewritten to a number
+I'd hit.
 
 ## Diagnoses
 
