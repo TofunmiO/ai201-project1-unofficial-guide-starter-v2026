@@ -26,8 +26,8 @@
     {
       "question": "The lab practical for phys 130 mechanics course is worth how many percent",
       "in_corpus": true,
-      "best_distance": 0.19322948875892698,
-      "best_source": "course_phys_130_exams.txt"
+      "best_distance": 0.20037992706139285,
+      "best_source": "course_phys_130.txt"
     },
     {
       "question": "What is winter like",
@@ -38,8 +38,8 @@
     {
       "question": "What is the capital of Mongolia?",
       "in_corpus": false,
-      "best_distance": 0.8245932411268596,
-      "best_source": "course_hist_118_exams.txt"
+      "best_distance": 0.8692720127661568,
+      "best_source": "course_hist_118.txt"
     },
     {
       "question": "How do I change the oil in a diesel engine?",
@@ -50,8 +50,8 @@
     {
       "question": "Who won the 1994 World Cup?",
       "in_corpus": false,
-      "best_distance": 0.8858601031703384,
-      "best_source": "course_hist_118_exams.txt"
+      "best_distance": 0.9300558869671935,
+      "best_source": "course_hist_118_exams.txt+course_hist_118_workload.txt"
     },
     {
       "question": "What is the recommended dosage of ibuprofen for a headache?",
@@ -62,8 +62,8 @@
     {
       "question": "How do I write a for loop in Rust?",
       "in_corpus": false,
-      "best_distance": 0.895997647190278,
-      "best_source": "course_hist_118_exams.txt"
+      "best_distance": 0.9001566518853021,
+      "best_source": "course_engl_205.txt"
     }
   ]
 }

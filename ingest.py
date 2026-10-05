@@ -40,6 +40,39 @@ def clean_text(raw: str) -> str:
     return text.strip()
 
 
+def merge_short_exam_siblings(documents: list[Document]) -> list[Document]:
+    """
+    Fold a too-short "_exams.txt" post into its same-course "_workload.txt"
+    sibling, before chunking ever sees it.
+
+    Diagnosis (unit 2, criterion 4): four "_exams.txt" documents are
+    themselves under the 200-character chunk floor, with nothing else in
+    that document to merge with. Merging with the same-course sibling here,
+    at the loading stage, keeps the result on-topic (still about the same
+    course) and gives the chunker enough material to clear the floor —
+    without the chunker having to merge unrelated documents together.
+    """
+    by_source = {d.source: d for d in documents}
+    merged_away: set[str] = set()
+    result: list[Document] = []
+
+    for doc in documents:
+        if doc.source in merged_away:
+            continue
+        sibling_name = doc.source.replace("_exams.txt", "_workload.txt")
+        sibling = by_source.get(sibling_name)
+        if len(doc.text) < 200 and doc.source.endswith("_exams.txt") and sibling:
+            result.append(Document(
+                source=f"{doc.source}+{sibling.source}",
+                text=f"{doc.text}\n\n{sibling.text}",
+            ))
+            merged_away.add(sibling.source)
+        else:
+            result.append(doc)
+
+    return result
+
+
 def load_documents(corpus: str | None = None) -> list[Document]:
     """
     Read every .txt and .md file in the corpus folder.
@@ -67,7 +100,7 @@ def load_documents(corpus: str | None = None) -> list[Document]:
     if not documents:
         raise ValueError(f"{folder} has no .txt or .md files in it.")
 
-    return documents
+    return merge_short_exam_siblings(documents)
 
 
 def describe(documents: list[Document]) -> str:

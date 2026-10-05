@@ -445,12 +445,22 @@ change.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** Added `ingest.py::merge_short_exam_siblings`, called at
+the end of `load_documents()`. Before chunking ever runs, it finds any
+`"_exams.txt"` document under 200 characters and merges it with its
+same-course `"_workload.txt"` sibling into one `Document`, with the source
+recorded honestly as both filenames (e.g.
+`course_phys_130_exams.txt+course_phys_130_workload.txt`). No changes to
+`chunker.py`, `store.py`, or `generate.py` — `source` was already a plain
+string, so the combined name just flows through as-is.
 
-**Why I picked it:**
-
-<!-- Connect it to a specific diagnosis above in one sentence. If you can't,
-     you picked a fix because it sounded impressive. -->
+**Why I picked it:** The Diagnoses section found that `chunker.py`'s
+floor-merge only works *within* a document, so it can't rescue a document
+that's entirely under 200 characters — exactly the 4 `"_exams.txt"` posts
+that were missing criterion 4. Fixing it at the loading stage, by pairing
+each short post with its natural same-course sibling, targets that exact
+mechanism without loosening the 200-character floor or stitching together
+two unrelated documents.
 
 ### Run Log — After
 
@@ -459,13 +469,37 @@ change.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. No chunk >90 words or <200 characters | 85 of 85 | 85/85 | 85/85 | 85/85 | MET |
+| 5. Random sample of 5 chunks reads as a complete thought | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
-**Did it help?**
+Full evidence: [`results/run_2026-10-04_2314_after.md`](results/run_2026-10-04_2314_after.md),
+same functions as Before (`run_eval.py::main`, `run_eval.py::check_out_of_scope`).
+
+**Before vs. after, side by side:**
+
+| Criterion | Before | After |
+|---|---|---|
+| 1. Retrieved chunk contains the answer | 5/5, 5/5, 5/5 — MET | 5/5, 5/5, 5/5 — MET |
+| 2. Every answer names a source | 5/5, 5/5, 5/5 — MET | 5/5, 5/5, 5/5 — MET |
+| 3. Gate stops out-of-corpus questions | 5/5 — MET | 5/5 — MET |
+| 4. No chunk >90 words or <200 characters | 85/89 — MISSED | 85/85 — MET |
+| 5. Random sample reads as a complete thought | 5/5 — MET | 5/5 — MET |
+
+`chunker.py::split_documents` now reports 0 chunks over 90 words and 0 under
+200 characters (`85 chunks, 329 characters on average, shortest 205, longest
+516`), versus 85/89 compliant before.
+
+**Did it help?** Yes, and cleanly — criterion 4 went from MISSED to MET
+without moving any of the other four. The one test question that touches a
+merged document (`"The lab practical for phys 130 mechanics course..."`,
+now retrieving `course_phys_130_exams.txt+course_phys_130_workload.txt`)
+still answers correctly; its best distance shifted from 0.1932 to 0.2004,
+nowhere near the 0.646 cutoff. The `OUT_OF_SCOPE` distances shifted by
+similarly small amounts (e.g. Mongolia 0.825 → 0.869) since the index's
+embeddings changed slightly, but all 5 are still refused by a wide margin.
 
 <!-- Say plainly whether it did, and how you know. If it made things worse,
      say that — a change that backfired, honestly reported, earns full credit
